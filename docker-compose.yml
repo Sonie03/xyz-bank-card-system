@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql:8.0
+
+    container_name: xyz-mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Root@2026
+      MYSQL_DATABASE: xyz_bank
+
+    ports:
+      - "3306:3306"
+
+  app:
+    image: xyz-bank-card-system:v1
+
+    container_name: xyz-app
+
+    ports:
+      - "8081:8081"
+
+    depends_on:
+      - mysql
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/xyz_bank
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root@2026
