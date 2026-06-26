@@ -1,22 +1,36 @@
 pipeline {
-
     agent any
+
+    tools {
+        maven 'Maven'
+    }
 
     stages {
 
-        stage('Welcome') {
-
+        stage('Checkout') {
             steps {
-
-                echo "======================================="
-                echo "XYZ Bank CI/CD Pipeline Started"
-                echo "Welcome Sonie!"
-                echo "======================================="
-
+                git branch: 'main',
+                    url: 'https://github.com/Sonie03/xyz-bank-card-system.git'
             }
+        }
 
+        stage('Build') {
+            steps {
+                bat 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    bat '''
+                    mvn sonar:sonar ^
+                    -Dsonar.projectKey=xyz-bank ^
+                    -Dsonar.projectName=xyz-bank ^
+                    '''
+                }
+            }
         }
 
     }
-
 }
