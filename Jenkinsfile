@@ -16,18 +16,18 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                 sh 'mvn clean package -DskipTests'
             }
-        }
+     }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    bat '''
-                    mvn sonar:sonar ^
-                    -Dsonar.projectKey=xyz-bank ^
-                    -Dsonar.projectName=xyz-bank ^
-                    '''
+                    sh '''
+                       mvn sonar:sonar \
+                       -Dsonar.projectKey=xyz-bank \
+                       -Dsonar.projectName=xyz-bank
+                        '''
                 }
             }
         }
