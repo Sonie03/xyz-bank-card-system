@@ -1,42 +1,38 @@
-version: '3.8'
-
 services:
 
   mysql:
     image: mysql:8.0
-    container_name: xyz-mysql
+
+    container_name: xyz-bank-mysql
+
     restart: always
+
     environment:
       MYSQL_ROOT_PASSWORD: Root@2026
       MYSQL_DATABASE: xyz_bank
+
     ports:
       - "3306:3306"
+
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
 
   app:
-    image: xyz-bank-card-system:v2
-    container_name: xyz-app
-    restart: always
-    depends_on:
-      - mysql
+
+    build: .
+
+    container_name: xyz-bank-app
+
     ports:
       - "8081:8081"
+
+    depends_on:
+      - mysql
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/xyz_bank
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Root@2026
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    restart: always
-    ports:
-      - "8082:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-
 volumes:
-  mysql_data:
-  jenkins_home:
+  mysql-data:
