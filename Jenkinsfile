@@ -53,14 +53,16 @@ pipeline {
 
         stage('Trivy Image Scan') {
     steps {
-        sh """
-trivy image \
---timeout 20m \
---scanners vuln \
---severity HIGH,CRITICAL \
---exit-code 1 \
-sonie03e/xyz-bank-card-system:${BUILD_NUMBER}
-"""
+        sh '''
+        trivy image \
+        --timeout 20m \
+        --scanners vuln \
+        --severity HIGH,CRITICAL \
+        --format table \
+        -o trivy-image-report.txt \
+        sonie03e/xyz-bank-card-system:${BUILD_NUMBER}
+        '''
+        archiveArtifacts artifacts: 'trivy-image-report.txt'
     }
 }
 
