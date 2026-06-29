@@ -58,7 +58,7 @@ pipeline {
 
         trivy image \
           --cache-dir /tmp/trivy-cache-${BUILD_NUMBER} \
-          --timeout 15m \
+          --timeout 20m \
           --severity HIGH,CRITICAL \
           sonie03e/xyz-bank-card-system:${BUILD_NUMBER}
         '''
