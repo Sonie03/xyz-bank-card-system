@@ -45,7 +45,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t sonie03e/xyz-bank-demo:${BUILD_NUMBER} .'
+                sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .'
             }
         }
 
@@ -56,9 +56,10 @@ pipeline {
         --timeout 20m \
         --scanners vuln \
         --severity HIGH,CRITICAL \
+        
         --format table \
         -o trivy-image-report.txt \
-        sonie03e/xyz-bank-card-system:${BUILD_NUMBER}
+        ${IMAGE_NAME}:${BUILD_NUMBER}
         '''
         archiveArtifacts artifacts: 'trivy-image-report.txt'
     }
