@@ -52,10 +52,18 @@ pipeline {
         }
 
         stage('Trivy Image Scan') {
-            steps {
-                sh 'trivy image --severity HIGH,CRITICAL $IMAGE_NAME:$IMAGE_TAG'
-            }
-        }
+    steps {
+        sh '''
+        mkdir -p reports
+        trivy image \
+          --cache-dir /tmp/trivy-cache-${BUILD_NUMBER} \
+          --severity HIGH,CRITICAL \
+          --format table \
+          --output reports/trivy-image-report.txt \
+          $IMAGE_NAME:$IMAGE_TAG
+        '''
+    }
+}
 
         stage('Push Docker Image') {
     steps {
