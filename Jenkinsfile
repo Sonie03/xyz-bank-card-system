@@ -53,15 +53,14 @@ pipeline {
 
         stage('Trivy Image Scan') {
     steps {
-        sh '''
-        mkdir -p /tmp/trivy-cache-${BUILD_NUMBER}
-
-        trivy image \
-          --cache-dir /tmp/trivy-cache-${BUILD_NUMBER} \
-          --timeout 20m \
-          --severity HIGH,CRITICAL \
-          sonie03e/xyz-bank-card-system:${BUILD_NUMBER}
-        '''
+        sh """
+trivy image \
+--timeout 20m \
+--scanners vuln \
+--severity HIGH,CRITICAL \
+--exit-code 1 \
+sonie03e/xyz-bank-card-system:${BUILD_NUMBER}
+"""
     }
 }
 
