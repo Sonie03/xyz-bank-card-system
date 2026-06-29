@@ -7,10 +7,8 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = "sonie03e/xyz-bank-card-system"
-        IMAGE_TAG = "${BUILD_NUMBER}"
-    }
-
+    IMAGE_NAME = "sonie03e/xyz-bank-demo"
+}        
     stages {
 
         stage('Checkout') {
@@ -47,7 +45,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
+                sh 'docker build -t sonie03e/xyz-bank-demo:${BUILD_NUMBER} .'
             }
         }
 
@@ -76,7 +74,7 @@ pipeline {
 
             sh '''
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            docker push $IMAGE_NAME:$IMAGE_TAG
+            docker push sonie03e/xyz-bank-demo:${BUILD_NUMBER}
             docker logout
             '''
         }
