@@ -54,13 +54,13 @@ pipeline {
         stage('Trivy Image Scan') {
     steps {
         sh '''
-        mkdir -p reports
+        mkdir -p /tmp/trivy-cache-${BUILD_NUMBER}
+
         trivy image \
           --cache-dir /tmp/trivy-cache-${BUILD_NUMBER} \
+          --timeout 15m \
           --severity HIGH,CRITICAL \
-          --format table \
-          --output reports/trivy-image-report.txt \
-          $IMAGE_NAME:$IMAGE_TAG
+          sonie03e/xyz-bank-card-system:${BUILD_NUMBER}
         '''
     }
 }
