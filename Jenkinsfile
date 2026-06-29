@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'JDK21'
+        maven 'Maven3'
+    }
+
     environment {
         IMAGE_NAME = "sonie03e/xyz-bank-card-system"
         IMAGE_TAG = "${BUILD_NUMBER}"
@@ -34,7 +39,7 @@ pipeline {
             }
         }
 
-        stage('Trivy FS Scan') {
+        stage('Trivy File Scan') {
             steps {
                 sh 'trivy fs .'
             }
@@ -48,7 +53,7 @@ pipeline {
 
         stage('Trivy Image Scan') {
             steps {
-                sh 'trivy image $IMAGE_NAME:$IMAGE_TAG'
+                sh 'trivy image --severity HIGH,CRITICAL $IMAGE_NAME:$IMAGE_TAG'
             }
         }
 
@@ -58,6 +63,20 @@ pipeline {
                     sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed!'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
