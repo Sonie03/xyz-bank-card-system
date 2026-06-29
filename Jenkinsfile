@@ -51,16 +51,19 @@ pipeline {
 
         stage('Trivy Image Scan') {
     steps {
-        sh '''
-        trivy image \
-        --timeout 20m \
-        --scanners vuln \
-        --severity HIGH,CRITICAL \
+        sh """
+        echo "IMAGE_NAME=${IMAGE_NAME}"
+        echo "BUILD_NUMBER=${BUILD_NUMBER}"
 
-        --format table \
-        -o trivy-image-report.txt \
-        ${IMAGE_NAME}:${BUILD_NUMBER}
-        '''
+        trivy image \
+          --timeout 20m \
+          --scanners vuln \
+          --severity HIGH,CRITICAL \
+          --format table \
+          -o trivy-image-report.txt \
+          ${IMAGE_NAME}:${BUILD_NUMBER}
+        """
+
         archiveArtifacts artifacts: 'trivy-image-report.txt'
     }
 }
