@@ -56,7 +56,7 @@ pipeline {
         --timeout 20m \
         --scanners vuln \
         --severity HIGH,CRITICAL \
-        
+
         --format table \
         -o trivy-image-report.txt \
         ${IMAGE_NAME}:${BUILD_NUMBER}
@@ -75,7 +75,7 @@ pipeline {
 
             sh '''
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            docker push sonie03e/xyz-bank-demo:${BUILD_NUMBER}
+            ddocker push ${IMAGE_NAME}:${BUILD_NUMBER}
             docker logout
             '''
         }
