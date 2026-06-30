@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xyz-bank-deployment
+  namespace: xyz-bank
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: xyz-bank
+  template:
+    metadata:
+      labels:
+        app: xyz-bank
+    spec:
+      containers:
+      - name: xyz-bank-container
+        image: sonie03e/xyz-bank-demo:latest
+        ports:
+        - containerPort: 8081
