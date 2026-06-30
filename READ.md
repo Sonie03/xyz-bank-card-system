@@ -1,36 +1,41 @@
-# XYZ Bank Debit & Credit Card System
+## XYZ Bank Card System
 
-## Tech Stack
+## Project Overview
+
+This project demonstrates a complete DevOps CI/CD pipeline using Spring Boot and MySQL.
+
+## Technologies Used
 
 - Java 21
 - Spring Boot
 - MySQL
+- Maven
+- Git
+- GitHub
 - Docker
 - Docker Compose
 - Jenkins
 - SonarQube
 - Trivy
 - Kubernetes
-- Prometheus
-- Grafana
-- Terraform
-- Ansible
-- AWS EC2
-
-## Features
-
-- Customer Management
-- Debit Card Requests
-- Credit Card Requests
-- Card Approval
-- Transactions
-- Admin Dashboard
-- Reports
 
 ## DevOps Pipeline
 
-GitHub → Jenkins → Maven → SonarQube → Trivy → Docker → DockerHub → Kubernetes
+GitHub
+→ Jenkins
+→ Maven Build
+→ SonarQube
+→ Trivy
+→ Docker Build
+→ Docker Hub
+→ Kubernetes
 
-## Author
+## Project Status
 
-Sonie
+✅ CI Completed
+
+✅ Dockerized
+
+✅ Kubernetes Deployment Completed
+
+🚀 Continuous Deployment In Progress

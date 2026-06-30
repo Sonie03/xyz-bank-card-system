@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: xyz-bank-container
-        image: sonie03e/xyz-bank-demo:latest
+        image: sonie03e/xyz-bank-demo:18
         ports:
         - containerPort: 8081
