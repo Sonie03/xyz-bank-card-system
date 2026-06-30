@@ -78,7 +78,7 @@ pipeline {
 
             sh '''
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            ddocker push ${IMAGE_NAME}:${BUILD_NUMBER}
+            docker push ${IMAGE_NAME}:${BUILD_NUMBER}
             docker logout
             '''
         }
