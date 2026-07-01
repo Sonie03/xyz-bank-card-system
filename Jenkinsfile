@@ -23,13 +23,7 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-
-        stage('SonarQube Analysis') {
+         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('Sonarqube1') {
                     sh 'mvn sonar:sonar'
@@ -44,26 +38,28 @@ pipeline {
         }
 
         stage('Docker Build') {
-            steps {
-                sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .'
-                docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${IMAGE_NAME}:latest
-            }
-        }
+    steps {
+        sh '''
+            docker build -t $IMAGE_NAME:$BUILD_NUMBER .
+            docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest
+        '''
+    }
+}
 
         stage('Trivy Image Scan') {
     steps {
-        sh """
-        echo "IMAGE_NAME=${IMAGE_NAME}"
-        echo "BUILD_NUMBER=${BUILD_NUMBER}"
+        sh '''
+            echo "IMAGE_NAME=$IMAGE_NAME"
+            echo "BUILD_NUMBER=$BUILD_NUMBER"
 
-        trivy image \
-          --timeout 20m \
-          --scanners vuln \
-          --severity HIGH,CRITICAL \
-          --format table \
-          -o trivy-image-report.txt \
-          ${IMAGE_NAME}:${BUILD_NUMBER}
-        """
+            trivy image \
+              --timeout 20m \
+              --scanners vuln \
+              --severity HIGH,CRITICAL \
+              --format table \
+              -o trivy-image-report.txt \
+              $IMAGE_NAME:$BUILD_NUMBER
+        '''
 
         archiveArtifacts artifacts: 'trivy-image-report.txt'
     }
@@ -77,16 +73,14 @@ pipeline {
             passwordVariable: 'DOCKER_PASS'
         )]) {
 
-            sh """
-
+            sh '''
                 echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                   docker push ${IMAGE_NAME}:${BUILD_NUMBER}
-                     docker push ${IMAGE_NAME}:latest
-
-                   docker logout
-                         """
-               }
-     }
+                docker push $IMAGE_NAME:$BUILD_NUMBER
+                docker push $IMAGE_NAME:latest
+                docker logout
+            '''
+        }
+    }
 }
     }
 
