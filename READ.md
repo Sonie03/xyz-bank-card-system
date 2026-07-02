@@ -1,41 +1,77 @@
-## XYZ Bank Card System
+# XYZ Bank Card Management System
 
-## Project Overview
+A production-style Banking application developed using Spring Boot and deployed using a complete DevOps CI/CD pipeline.
 
-This project demonstrates a complete DevOps CI/CD pipeline using Spring Boot and MySQL.
+---
 
 ## Technologies Used
 
 - Java 21
 - Spring Boot
+- Spring Data JPA
 - MySQL
 - Maven
-- Git
-- GitHub
 - Docker
-- Docker Compose
 - Jenkins
 - SonarQube
 - Trivy
 - Kubernetes
+- Git
+- GitHub
 
-## DevOps Pipeline
+---
+
+## Project Features
+
+- Customer Registration
+- Customer Details
+- REST APIs
+- MySQL Database
+- Dockerized Application
+- Jenkins CI Pipeline
+- SonarQube Code Analysis
+- Trivy Security Scan
+- Kubernetes Deployment
+
+---
+
+## CI/CD Pipeline
 
 GitHub
-→ Jenkins
-→ Maven Build
-→ SonarQube
-→ Trivy
-→ Docker Build
-→ Docker Hub
-→ Kubernetes
+↓
+Jenkins
+↓
+Build
+↓
+SonarQube
+↓
+Trivy
+↓
+Docker Build
+↓
+Docker Push
+↓
+Kubernetes Deployment
 
-## Project Status
+---
 
-✅ CI Completed
+## Project Structure
 
-✅ Dockerized
+```
+xyz-bank-card-system
+│
+├── src
+├── kubernetes
+├── docs
+├── Dockerfile
+├── Jenkinsfile
+├── docker-compose.yml
+├── README.md
+└── pom.xml
+```
 
-✅ Kubernetes Deployment Completed
+---
 
-🚀 Continuous Deployment In Progress
+## Author
+
+Sonie E
