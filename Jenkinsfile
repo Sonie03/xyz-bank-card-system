@@ -84,6 +84,20 @@ pipeline {
 }
     }
 
+    stage('Deploy to Kubernetes') {
+    steps {
+        sh '''
+        kubectl rollout restart deployment xyz-bank-deployment -n xyz-bank
+
+        kubectl set image deployment/xyz-bank-deployment \
+        xyz-bank-container=$IMAGE_NAME:$BUILD_NUMBER \
+        -n xyz-bank
+
+        kubectl rollout status deployment/xyz-bank-deployment -n xyz-bank
+        '''
+    }
+}
+
     post {
         success {
             echo 'Pipeline completed successfully!'
@@ -93,17 +107,7 @@ pipeline {
             echo 'Pipeline failed!'
         }
         
-        stage('Deploy to Kubernetes') {
-    steps {
-        sh '''
-        kubectl set image deployment/xyz-bank-deployment \
-        xyz-bank-container=${IMAGE_NAME}:${BUILD_NUMBER} \
-        -n xyz-bank
-
-        kubectl rollout status deployment/xyz-bank-deployment -n xyz-bank
-        '''
-    }
-}
+        
         always {
             cleanWs()
         }
