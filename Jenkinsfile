@@ -92,7 +92,18 @@ pipeline {
         failure {
             echo 'Pipeline failed!'
         }
+        
+        stage('Deploy to Kubernetes') {
+    steps {
+        sh '''
+        kubectl set image deployment/xyz-bank-deployment \
+        xyz-bank-container=${IMAGE_NAME}:${BUILD_NUMBER} \
+        -n xyz-bank
 
+        kubectl rollout status deployment/xyz-bank-deployment -n xyz-bank
+        '''
+    }
+}
         always {
             cleanWs()
         }
